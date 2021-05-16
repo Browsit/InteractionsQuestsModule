@@ -3,7 +3,7 @@ Adds Interactions objectives to Quests
 
 ## Download
 
-Distributed exclusively through Spigot: Link coming soon
+Distributed through Spigot: https://www.spigotmc.org/resources/interactions-quests-module.92421/
 
 ## Usage
 
