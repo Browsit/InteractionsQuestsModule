@@ -1,0 +1,8 @@
+name: InteractionsQuests
+version: 1.0
+description: Quests module for Interactions
+author: Browsit
+website: https://github.com/Browsit/InteractionsQuestsModule
+
+main: me.pikamug.interactionsquests
+depend: [Interactions, Quests]
