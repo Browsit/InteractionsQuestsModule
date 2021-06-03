@@ -4,5 +4,5 @@ description: Quests module for Interactions
 author: Browsit
 website: https://github.com/Browsit/InteractionsQuestsModule
 
-main: me.pikamug.interactionsquests
+main: org.browsit.interactionsquests
 depend: [Interactions, Quests]
