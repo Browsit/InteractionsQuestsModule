@@ -4,7 +4,7 @@ Adds Interactions objectives to Quests
 ## Download
 
 Distributed through these fine vendors:
-- Spigot (https://www.spigotmc.org/resources/interactions-quests-module.92421/)
+- SpigotMC (https://www.spigotmc.org/resources/interactions-quests-module.92421/)
 - Lectern (https://browsit.org/index.php?route=/resources/resource/3-interactions-quests-module/)
 
 ## Usage

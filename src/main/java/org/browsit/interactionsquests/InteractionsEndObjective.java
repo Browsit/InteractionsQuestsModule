@@ -1,6 +1,6 @@
-/*******************************************************************************************************
+/*
  * Copyright (c) 2021 Browsit, LLC. All rights reserved.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN
  * NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
@@ -8,10 +8,11 @@
  * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *******************************************************************************************************/
+ */
 
 package org.browsit.interactionsquests;
 
+import java.util.AbstractMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -27,32 +28,45 @@ import me.blackvein.quests.Quester;
 import me.blackvein.quests.Quests;
 
 public class InteractionsEndObjective extends CustomObjective implements Listener {
-    private static Quests quests = (Quests) Bukkit.getServer().getPluginManager().getPlugin("Quests");
+    private static final Quests quests = (Quests) Bukkit.getServer().getPluginManager().getPlugin("Quests");
 
     public InteractionsEndObjective() {
         setName("Interactions End Objective");
         setAuthor("Browsit, LLC");
-        addItem("PAPER", (short)0);
+        setItem("PAPER", (short)0);
         setShowCount(true);
         addStringPrompt("End Obj", "Set a name for the objective", "End conversation");
         addStringPrompt("Conversation Name", "Enter conversation name", "ANY");
         setCountPrompt("Set the number of times to end the conversation");
         setDisplay("%End Obj%: %count%");
     }
+
+    @Override
+    public String getModuleName() {
+        return "Interactions Quests Module";
+    }
+
+    @Override
+    public Map.Entry<String, Short> getModuleItem() {
+        return new AbstractMap.SimpleEntry<>("PAPER", (short)0);
+    }
     
     @EventHandler
-    public void conversationEnd(final ConversationEndEvent event){
+    public void conversationEnd(final ConversationEndEvent event) {
+       if (quests == null) {
+           return;
+       }
        final Player starter = event.getPlayer();
        final Quester quester = quests.getQuester(starter.getUniqueId());
        if (quester == null) {
            return;
        }
        for (final Quest q : quester.getCurrentQuests().keySet()) {
-           final Map<String, Object> datamap = getDataForPlayer(starter, this, q);
-           if (datamap != null) {
-               final String convName = (String)datamap.getOrDefault("Conversation Name", "ANY");
+           final Map<String, Object> dataMap = getDataForPlayer(starter, this, q);
+           if (dataMap != null) {
+               final String convName = (String)dataMap.getOrDefault("Conversation Name", "ANY");
                if (convName == null) {
-                   incrementObjective(starter, this, 1, q);
+                   return;
                }
                final InteractionsConversation conv = event.getConversation();
                if (convName.equals("ANY") || convName.equalsIgnoreCase(conv.getName())) {
