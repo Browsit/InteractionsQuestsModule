@@ -28,17 +28,16 @@ import me.blackvein.quests.Quester;
 import me.blackvein.quests.Quests;
 
 public class InteractionsEndObjective extends CustomObjective implements Listener {
-    private static final Quests quests = (Quests) Bukkit.getServer().getPluginManager().getPlugin("Quests");
 
     public InteractionsEndObjective() {
         setName("Interactions End Objective");
         setAuthor("Browsit, LLC");
         setItem("PAPER", (short)0);
         setShowCount(true);
-        addStringPrompt("End Obj", "Set a name for the objective", "End conversation");
-        addStringPrompt("Conversation Name", "Enter conversation name", "ANY");
+        addStringPrompt("Interactions End Obj", "Set a name for the objective", "End conversation");
+        addStringPrompt("Interactions Conversation Name", "Enter conversation name", "ANY");
         setCountPrompt("Set the number of times to end the conversation");
-        setDisplay("%End Obj%: %count%");
+        setDisplay("%Interactions End Obj%: %count%");
     }
 
     @Override
@@ -53,18 +52,15 @@ public class InteractionsEndObjective extends CustomObjective implements Listene
     
     @EventHandler
     public void conversationEnd(final ConversationEndEvent event) {
-       if (quests == null) {
-           return;
-       }
        final Player starter = event.getPlayer();
-       final Quester quester = quests.getQuester(starter.getUniqueId());
+       final Quester quester = InteractionsModule.getQuests().getQuester(starter.getUniqueId());
        if (quester == null) {
            return;
        }
        for (final Quest q : quester.getCurrentQuests().keySet()) {
            final Map<String, Object> dataMap = getDataForPlayer(starter, this, q);
            if (dataMap != null) {
-               final String convName = (String)dataMap.getOrDefault("Conversation Name", "ANY");
+               final String convName = (String)dataMap.getOrDefault("Interactions Conversation Name", "ANY");
                if (convName == null) {
                    return;
                }
