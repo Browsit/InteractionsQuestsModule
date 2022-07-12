@@ -15,7 +15,6 @@ package org.browsit.interactionsquests;
 import java.util.AbstractMap;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +24,6 @@ import it.ajneb97.api.InteractionsConversation;
 import me.blackvein.quests.CustomObjective;
 import me.blackvein.quests.Quest;
 import me.blackvein.quests.Quester;
-import me.blackvein.quests.Quests;
 
 public class InteractionsStartObjective extends CustomObjective implements Listener {
 
@@ -36,7 +34,7 @@ public class InteractionsStartObjective extends CustomObjective implements Liste
         setShowCount(true);
         addStringPrompt("Interactions Start Obj", "Set a name for the objective", "Start conversation");
         addStringPrompt("Interactions Conversation Name", "Enter conversation name", "ANY");
-        setCountPrompt("Set the amount of times to start the conversation");
+        setCountPrompt("Set the number of times to start the conversation");
         setDisplay("%Interactions Start Obj%: %count%");
     }
 

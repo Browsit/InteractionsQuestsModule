@@ -15,7 +15,6 @@ package org.browsit.interactionsquests;
 import java.util.AbstractMap;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +24,6 @@ import it.ajneb97.api.InteractionsConversation;
 import me.blackvein.quests.CustomObjective;
 import me.blackvein.quests.Quest;
 import me.blackvein.quests.Quester;
-import me.blackvein.quests.Quests;
 
 public class InteractionsEndObjective extends CustomObjective implements Listener {
 
@@ -52,25 +50,25 @@ public class InteractionsEndObjective extends CustomObjective implements Listene
     
     @EventHandler
     public void conversationEnd(final ConversationEndEvent event) {
-       final Player starter = event.getPlayer();
-       final Quester quester = InteractionsModule.getQuests().getQuester(starter.getUniqueId());
-       if (quester == null) {
-           return;
-       }
-       for (final Quest q : quester.getCurrentQuests().keySet()) {
-           final Map<String, Object> dataMap = getDataForPlayer(starter, this, q);
-           if (dataMap != null) {
-               final String convName = (String)dataMap.getOrDefault("Interactions Conversation Name", "ANY");
-               if (convName == null) {
-                   return;
-               }
-               final InteractionsConversation conv = event.getConversation();
-               if (convName.equals("ANY") || convName.equalsIgnoreCase(conv.getName())) {
-                   incrementObjective(starter, this, 1, q);
-                   return;
-               }
-               return;
-           }
-       }
+        final Player starter = event.getPlayer();
+        final Quester quester = InteractionsModule.getQuests().getQuester(starter.getUniqueId());
+        if (quester == null) {
+            return;
+        }
+        for (final Quest q : quester.getCurrentQuests().keySet()) {
+            final Map<String, Object> dataMap = getDataForPlayer(starter, this, q);
+            if (dataMap != null) {
+                final String convName = (String)dataMap.getOrDefault("Interactions Conversation Name", "ANY");
+                if (convName == null) {
+                    return;
+                }
+                final InteractionsConversation conv = event.getConversation();
+                if (convName.equals("ANY") || convName.equalsIgnoreCase(conv.getName())) {
+                    incrementObjective(starter, this, 1, q);
+                    return;
+                }
+                return;
+            }
+        }
     }
 }
