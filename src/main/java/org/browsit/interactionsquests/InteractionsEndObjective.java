@@ -15,17 +15,17 @@ package org.browsit.interactionsquests;
 import java.util.AbstractMap;
 import java.util.Map;
 
+import me.pikamug.quests.module.BukkitCustomObjective;
+import me.pikamug.quests.player.Quester;
+import me.pikamug.quests.quests.Quest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import it.ajneb97.api.ConversationEndEvent;
 import it.ajneb97.api.InteractionsConversation;
-import me.blackvein.quests.CustomObjective;
-import me.blackvein.quests.Quest;
-import me.blackvein.quests.Quester;
 
-public class InteractionsEndObjective extends CustomObjective implements Listener {
+public class InteractionsEndObjective extends BukkitCustomObjective implements Listener {
 
     public InteractionsEndObjective() {
         setName("Interactions End Objective");
@@ -56,7 +56,7 @@ public class InteractionsEndObjective extends CustomObjective implements Listene
             return;
         }
         for (final Quest q : quester.getCurrentQuests().keySet()) {
-            final Map<String, Object> dataMap = getDataForPlayer(starter, this, q);
+            final Map<String, Object> dataMap = getDataForPlayer(starter.getUniqueId(), this, q);
             if (dataMap != null) {
                 final String convName = (String)dataMap.getOrDefault("Interactions Conversation Name", "ANY");
                 if (convName == null) {
@@ -64,7 +64,7 @@ public class InteractionsEndObjective extends CustomObjective implements Listene
                 }
                 final InteractionsConversation conv = event.getConversation();
                 if (convName.equals("ANY") || convName.equalsIgnoreCase(conv.getName())) {
-                    incrementObjective(starter, this, 1, q);
+                    incrementObjective(starter.getUniqueId(), this, q, 1);
                     return;
                 }
                 return;
