@@ -16,6 +16,7 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 import it.ajneb97.model.player.PlayerConversation;
+import me.pikamug.quests.enums.ObjectiveType;
 import me.pikamug.quests.module.BukkitCustomObjective;
 import me.pikamug.quests.player.Quester;
 import me.pikamug.quests.quests.Quest;
@@ -55,8 +56,8 @@ public class InteractionsStartObjective extends BukkitCustomObjective implements
         if (quester == null) {
             return;
         }
-        for (final Quest q : quester.getCurrentQuests().keySet()) {
-            final Map<String, Object> dataMap = getDataForPlayer(starter.getUniqueId(), this, q);
+        for (final Quest quest : quester.getCurrentQuests().keySet()) {
+            final Map<String, Object> dataMap = getDataForPlayer(starter.getUniqueId(), this, quest);
             if (dataMap != null) {
                 final String convName = (String)dataMap.getOrDefault("Interactions Conversation Name", "ANY");
                 if (convName == null) {
@@ -64,7 +65,13 @@ public class InteractionsStartObjective extends BukkitCustomObjective implements
                 }
                 final PlayerConversation conv = event.getPlayerConversation();
                 if (convName.equals("ANY") || convName.equalsIgnoreCase(conv.getConversationEntity().getFileName())) {
-                    incrementObjective(starter.getUniqueId(), this, q, 1);
+                    incrementObjective(starter.getUniqueId(), this, quest, 1);
+
+                    quester.dispatchMultiplayerEverything(quest, ObjectiveType.CUSTOM,
+                            (final Quester q, final Quest cq) -> {
+                                incrementObjective(q.getUUID(), this, quest, 1);
+                                return null;
+                            });
                     return;
                 }
                 return;
