@@ -15,6 +15,7 @@ package org.browsit.interactionsquests;
 import java.util.AbstractMap;
 import java.util.Map;
 
+import it.ajneb97.model.player.PlayerConversation;
 import me.pikamug.quests.module.BukkitCustomObjective;
 import me.pikamug.quests.player.Quester;
 import me.pikamug.quests.quests.Quest;
@@ -23,7 +24,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import it.ajneb97.api.ConversationEndEvent;
-import it.ajneb97.api.InteractionsConversation;
 
 public class InteractionsEndObjective extends BukkitCustomObjective implements Listener {
 
@@ -62,8 +62,8 @@ public class InteractionsEndObjective extends BukkitCustomObjective implements L
                 if (convName == null) {
                     return;
                 }
-                final InteractionsConversation conv = event.getConversation();
-                if (convName.equals("ANY") || convName.equalsIgnoreCase(conv.getName())) {
+                final PlayerConversation conv = event.getPlayerConversation();
+                if (convName.equals("ANY") || convName.equalsIgnoreCase(conv.getConversationEntity().getFileName())) {
                     incrementObjective(starter.getUniqueId(), this, q, 1);
                     return;
                 }
